@@ -33,11 +33,11 @@ extern uint16_t  BACK_COLOR;
 #define LCD_LED      10 //Backlight pin number
 #define LCD_RST      12 //Reset pin number
 
-#define	LCD_LED_SET()	HAL_GPIO_WritePin(GPIOC, 1 << LCD_LED, GPIO_PIN_SET) //Pin_C_out + LED = PC10
-#define	LCD_LED_CLR()	HAL_GPIO_WritePin(GPIOC, 1 << LCD_LED, GPIO_PIN_RESET)
+#define	LCD_LED_SET()	HAL_GPIO_WritePin(GPIOC, LCD_LED, GPIO_PIN_SET) //Pin_C_out + LED = PC10
+#define	LCD_LED_CLR()	HAL_GPIO_WritePin(GPIOC, LCD_LED, GPIO_PIN_RESET)
 
-#define	LCD_RST_SET()	HAL_GPIO_WritePin(GPIOD, 1 << LCD_RST, GPIO_PIN_SET) //Pin_D_out + RST = PD12
-#define	LCD_RST_CLR()	HAL_GPIO_WritePin(GPIOD, 1 << LCD_RST, GPIO_PIN_RESET)
+#define	LCD_RST_SET()	HAL_GPIO_WritePin(GPIOD, LCD_RST, GPIO_PIN_SET) //Pin_D_out + RST = PD12
+#define	LCD_RST_CLR()	HAL_GPIO_WritePin(GPIOD, LCD_RST, GPIO_PIN_RESET) // 1 << LCD_...
 
 
 typedef struct

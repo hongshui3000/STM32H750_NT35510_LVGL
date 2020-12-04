@@ -1,8 +1,0 @@
-lv_anim.h:129:20:lv_anim_set_var	16	static
-lv_anim.h:141:20:lv_anim_set_exec_cb	16	static
-lv_anim.h:151:20:lv_anim_set_time	16	static
-lv_anim.h:172:20:lv_anim_set_values	16	static
-lv_anim.h:231:20:lv_anim_set_playback_time	16	static
-lv_anim.h:251:20:lv_anim_set_repeat_count	16	static
-lv_disp.h:159:26:lv_scr_act	8	static
-lv_ex_img_3.c:6:6:lv_ex_img_3	88	static

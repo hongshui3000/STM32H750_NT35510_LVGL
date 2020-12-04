@@ -1,8 +1,0 @@
-lv_obj_style_dec.h:102:1:lv_style_set_radius	16	static
-lv_obj_style_dec.h:123:1:lv_style_set_bg_color	16	static
-lv_obj_style_dec.h:125:1:lv_style_set_bg_opa	16	static
-lv_obj_style_dec.h:180:1:lv_style_set_transition_time	16	static
-lv_obj_style_dec.h:181:1:lv_style_set_transition_delay	16	static
-lv_obj_style_dec.h:182:1:lv_style_set_transition_prop_1	16	static
-lv_disp.h:159:26:lv_scr_act	8	static
-lv_ex_style_10.c:6:6:lv_ex_style_10	24	static

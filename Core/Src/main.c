@@ -167,26 +167,25 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  tft_init();
+  //lv_init();
+
+  //tft_init();
   //TP_Init(); /* не до конца портировал резистивный сенсор - пока не вызываю, что бы компилировалось */
 
-  lv_init();
-
-  lv_ex_get_started_1(); /* должно выводить на экран кнопочку, пускай и без возможности нажать */
+  //lv_ex_get_started_1(); /* должно выводить на экран кнопочку, пускай и без возможности нажать */
   //lv_demo_widgets(); /* не хватает flash */
   //lv_demo_printer(); /* не хватает flash */
   //lv_demo_benchmark(); /* не хватает flash */
 
   LCD_Init();
-  LCD_Clear(WHITE);
 
     while (1)
     {
       /* USER CODE END WHILE */
 
-    		HAL_Delay(5);
-    		lv_tick_inc(5);
-    		lv_task_handler();
+			//lv_tick_inc(5);
+    		//HAL_Delay(5);
+    		//lv_task_handler();
     	/* Ничего не происходит - черный экран */
 
       /* USER CODE BEGIN 3 */

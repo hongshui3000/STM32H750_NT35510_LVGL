@@ -1,5 +1,0 @@
-lv_disp.h:159:26:lv_scr_act	8	static
-lv_ex_keyboard_1.c:8:13:kb_event_cb	16	static
-lv_ex_keyboard_1.c:18:13:kb_create	8	static
-lv_ex_keyboard_1.c:27:13:ta_event_cb	16	static
-lv_ex_keyboard_1.c:34:6:lv_ex_keyboard_1	24	static
