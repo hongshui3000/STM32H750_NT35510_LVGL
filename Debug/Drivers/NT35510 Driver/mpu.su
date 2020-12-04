@@ -1,0 +1,2 @@
+mpu.c:3:9:MPU_Set_Protection	40	static
+mpu.c:25:6:MPU_Memory_Protection	24	static

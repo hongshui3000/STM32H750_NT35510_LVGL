@@ -1,0 +1,10 @@
+lv_color.h:462:48:lv_color_mix	20	static
+lv_color.h:660:26:lv_color_hex3	8	static
+lv_theme_material.c:959:13:theme_apply	16	static
+lv_theme_material.c:1392:13:style_init_reset	0	static
+lv_color.h:655:26:lv_color_hex	0	static
+lv_theme_material.c:200:13:basic_init	24	static
+lv_theme_material.c:547:13:calendar_init	32	static
+lv_theme_material.c:724:13:list_init	16	static
+lv_theme_material.c:841:13:tabview_win_shared_init	16	static
+lv_theme_material.c:894:14:lv_theme_material_init	32	static

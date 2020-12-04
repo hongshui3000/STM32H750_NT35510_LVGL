@@ -1,0 +1,13 @@
+lv_color.h:462:48:lv_color_mix	20	static
+lv_mem.h:214:44:_lv_memcpy_small	8	static
+lv_img_buf.c:52:12:lv_img_buf_get_px_color	32	static
+lv_img_buf.c:119:10:lv_img_buf_get_px_alpha	40	static
+lv_img_buf.c:182:6:lv_img_buf_set_px_alpha	24	static
+lv_img_buf.c:241:6:lv_img_buf_set_px_color	32	static
+lv_img_buf.c:310:6:lv_img_buf_set_palette	24	static
+lv_img_buf.c:367:6:lv_img_buf_free	8	static
+lv_img_buf.c:384:10:lv_img_buf_get_img_size	0	static
+lv_img_buf.c:331:16:lv_img_buf_alloc	24	static
+lv_img_buf.c:420:6:_lv_img_buf_transform_init	32	static
+lv_img_buf.c:476:6:_lv_img_buf_get_transformed_area	40	static
+lv_img_buf.c:567:6:_lv_img_buf_transform_anti_alias	64	static

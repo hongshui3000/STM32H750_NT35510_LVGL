@@ -1,0 +1,4 @@
+lv_obj_style_dec.h:125:1:lv_style_set_bg_opa	16	static
+lv_theme_empty.c:68:14:lv_theme_empty_init	24	static
+lv_theme_empty.c:98:13:theme_apply	24	static
+lv_theme_empty.c:111:13:style_init_reset	16	static

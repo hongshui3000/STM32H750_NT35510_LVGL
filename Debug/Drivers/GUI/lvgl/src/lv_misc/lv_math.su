@@ -1,0 +1,6 @@
+lv_math.c:53:31:_lv_trigo_sin	24	static
+lv_math.c:88:9:_lv_bezier3	64	static
+lv_math.c:114:28:_lv_sqrt	32	static
+lv_math.c:137:10:_lv_atan2	40	static
+lv_math.c:221:9:_lv_pow	32	static
+lv_math.c:243:9:_lv_map	32	static

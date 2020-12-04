@@ -1,0 +1,11 @@
+lv_font_loader.c:89:13:lv_font_load	40	static
+lv_font_loader.c:124:6:lv_font_free	40	static
+lv_font_loader.c:193:23:init_bit_iterator	24	static
+lv_font_loader.c:202:12:read_bits	32	static
+lv_font_loader.c:224:12:read_bits_signed	32	static
+lv_font_loader.c:235:12:read_label	32	static
+lv_font_loader.c:252:13:load_cmaps_tables	64	static
+lv_font_loader.c:333:16:load_cmaps	48	static
+lv_font_loader.c:362:16:load_glyph	104	static
+lv_font_loader.c:491:13:lvgl_load_font	128	static
+lv_font_loader.c:597:9:load_kern	80	static

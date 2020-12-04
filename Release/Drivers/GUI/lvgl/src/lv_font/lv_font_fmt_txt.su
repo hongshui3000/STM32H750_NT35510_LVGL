@@ -1,0 +1,10 @@
+lv_font_fmt_txt.c:324:16:kern_pair_8_compare	0	static
+lv_font_fmt_txt.c:335:16:kern_pair_16_compare	0	static
+lv_font_fmt_txt.c:424:23:get_bits	16	static
+lv_font_fmt_txt.c:467:20:bits_write	12	static
+lv_font_fmt_txt.c:409:20:decompress_line	56	static
+lv_font_fmt_txt.c:590:16:unicode_list_compare	0	static
+lv_font_fmt_txt.c:207:17:get_glyph_dsc_id.isra.0.part.1	40	static
+lv_font_fmt_txt.c:84:17:lv_font_get_bitmap_fmt_txt	72	static
+lv_font_fmt_txt.c:148:6:lv_font_get_glyph_dsc_fmt_txt	48	static
+lv_font_fmt_txt.c:194:6:_lv_font_clean_up_fmt_txt	8	static

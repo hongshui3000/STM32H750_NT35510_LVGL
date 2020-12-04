@@ -1,0 +1,9 @@
+lv_draw_img.c:640:13:show_error	144	static
+lv_area.h:100:20:lv_area_copy	0	static
+lv_draw_img.c:333:35:lv_draw_map	272	static
+lv_draw_img.c:56:6:lv_draw_img_dsc_init	8	static
+lv_draw_img.c:98:9:lv_img_cf_get_px_size	0	static
+lv_draw_img.c:143:6:lv_img_cf_is_chroma_keyed	0	static
+lv_draw_img.c:170:6:lv_img_cf_has_alpha	0	static
+lv_draw_img.c:73:6:lv_draw_img	88	static
+lv_draw_img.c:203:14:lv_img_src_get_type	0	static

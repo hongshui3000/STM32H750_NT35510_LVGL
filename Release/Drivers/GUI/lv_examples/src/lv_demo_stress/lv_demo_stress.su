@@ -1,0 +1,4 @@
+lv_demo_stress.c:466:13:auto_del	88	static
+lv_disp.h:159:26:lv_scr_act	8	static
+lv_demo_stress.c:62:13:obj_test_task_cb	104	static
+lv_demo_stress.c:43:6:lv_demo_stress	40	static

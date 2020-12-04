@@ -1,0 +1,17 @@
+lv_anim.c:224:17:lv_anim_path_linear	0	static
+lv_anim.c:555:13:anim_mark_list_change	8	static
+lv_anim.c:443:13:anim_task	96	static
+lv_anim.c:61:6:_lv_anim_core_init	8	static
+lv_anim.c:78:6:lv_anim_init	8	static
+lv_anim.c:131:6:lv_anim_del	32	static
+lv_anim.c:92:6:lv_anim_start	16	static
+lv_anim.c:162:13:lv_anim_get	16	static
+lv_anim.c:178:10:lv_anim_count_running	16	static
+lv_anim.c:194:10:lv_anim_speed_to_time	0	static
+lv_anim.c:214:6:lv_anim_refr_now	0	static
+lv_anim.c:252:17:lv_anim_path_ease_in	16	static
+lv_anim.c:278:17:lv_anim_path_ease_out	16	static
+lv_anim.c:305:17:lv_anim_path_ease_in_out	16	static
+lv_anim.c:332:17:lv_anim_path_overshoot	16	static
+lv_anim.c:360:17:lv_anim_path_bounce	24	static
+lv_anim.c:425:17:lv_anim_path_step	0	static

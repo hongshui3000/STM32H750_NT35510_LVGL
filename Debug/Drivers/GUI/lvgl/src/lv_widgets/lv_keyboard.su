@@ -1,0 +1,12 @@
+lv_keyboard.c:117:12:lv_keyboard_create	48	static
+lv_keyboard.c:189:6:lv_keyboard_set_textarea	32	static
+lv_keyboard.c:216:6:lv_keyboard_set_mode	32	static
+lv_keyboard.c:233:6:lv_keyboard_set_cursor_manage	32	static
+lv_keyboard.c:260:6:lv_keyboard_set_map	24	static
+lv_keyboard.c:275:6:lv_keyboard_set_ctrl_map	24	static
+lv_keyboard.c:290:12:lv_keyboard_get_textarea	32	static
+lv_keyboard.c:303:20:lv_keyboard_get_mode	32	static
+lv_keyboard.c:316:6:lv_keyboard_get_cursor_manage	32	static
+lv_keyboard.c:335:6:lv_keyboard_def_event_cb	48	static
+lv_keyboard.c:440:17:lv_keyboard_signal	40	static
+lv_keyboard.c:474:13:lv_keyboard_update_map	24	static

@@ -1,0 +1,9 @@
+lv_obj_style_dec.h:102:1:lv_style_set_radius	16	static
+lv_obj_style_dec.h:123:1:lv_style_set_bg_color	16	static
+lv_obj_style_dec.h:125:1:lv_style_set_bg_opa	16	static
+lv_obj_style_dec.h:144:1:lv_style_set_pattern_repeat	16	static
+lv_obj_style_dec.h:146:1:lv_style_set_pattern_recolor	16	static
+lv_obj_style_dec.h:147:1:lv_style_set_pattern_opa	16	static
+lv_obj_style_dec.h:149:1:lv_style_set_pattern_image	24	static
+lv_disp.h:159:26:lv_scr_act	8	static
+lv_ex_style_5.c:6:6:lv_ex_style_5	32	static
