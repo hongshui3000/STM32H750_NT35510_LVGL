@@ -1006,8 +1006,6 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
 #endif
   }
 
-  /* ---------------------- START BREAK ------------------------- */
-
     /*------------------------- SYSCLK Configuration -------------------------*/
     if(((RCC_ClkInitStruct->ClockType) & RCC_CLOCKTYPE_SYSCLK) == RCC_CLOCKTYPE_SYSCLK)
     {
@@ -1068,8 +1066,6 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
         }
 
     }
-
-    /* ---------------- END BREAK ------------------- */
 
     /* Decreasing the BUS frequency divider */
    /*-------------------------- HCLK Configuration --------------------------*/

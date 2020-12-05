@@ -46,14 +46,14 @@ extern _m_tp_dev tp_dev;	 	//������������touch.c���
 
 //�봥����оƬ��������
 
-#define PEN  			HAL_GPIO_ReadPin(GPIOD,TP_IRQ_Pin)
-#define DOUT 			HAL_GPIO_ReadPin(GPIOB,TP_MISO_Pin)
-#define TDIN_H() 		HAL_GPIO_WritePin(GPIOB,TP_MOSI_Pin,GPIO_PIN_SET)
-#define TDIN_L() 		HAL_GPIO_WritePin(GPIOB,TP_MOSI_Pin,GPIO_PIN_RESET)
-#define TCLK_H() 		HAL_GPIO_WritePin(GPIOB,TP_SCK_Pin,GPIO_PIN_SET)
-#define TCLK_L() 		HAL_GPIO_WritePin(GPIOB,TP_SCK_Pin,GPIO_PIN_RESET)
-#define TCS_H()  		HAL_GPIO_WritePin(GPIOB,T_CS_Pin,GPIO_PIN_SET)
-#define TCS_L()  		HAL_GPIO_WritePin(GPIOB,T_CS_Pin,GPIO_PIN_RESET)
+#define PEN  			HAL_GPIO_ReadPin(TP_IRQ_GPIO_Port, TP_IRQ_Pin)
+#define DOUT 			HAL_GPIO_ReadPin(TP_MISO_GPIO_Port, TP_MISO_Pin)
+#define TDIN_H() 		HAL_GPIO_WritePin(TP_MOSI_GPIO_Port, TP_MOSI_Pin, GPIO_PIN_SET)
+#define TDIN_L() 		HAL_GPIO_WritePin(TP_MOSI_GPIO_Port, TP_MOSI_Pin, GPIO_PIN_RESET)
+#define TCLK_H() 		HAL_GPIO_WritePin(TP_SCK_GPIO_Port, TP_SCK_Pin, GPIO_PIN_SET)
+#define TCLK_L() 		HAL_GPIO_WritePin(TP_SCK_GPIO_Port, TP_SCK_Pin, GPIO_PIN_RESET)
+#define TCS_H()  		HAL_GPIO_WritePin(TP_CS_GPIO_Port, TP_CS_Pin, GPIO_PIN_SET)
+#define TCS_L()  		HAL_GPIO_WritePin(TP_CS_GPIO_Port, TP_CS_Pin, GPIO_PIN_RESET)
      
 
 void 						tp_write_byte(uint8_t num);						//�����оƬд��һ������

@@ -21,7 +21,6 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
-
 void DWT_Init(void)
 {
         //разрешаем использовать счётчик
@@ -43,7 +42,6 @@ void delay_us(uint32_t us)
       uint32_t us_count_tic =  us * (SystemCoreClock/1000000);
       while (delta(t0, DWT->CYCCNT) < us_count_tic) ;
 }
-
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim6;
@@ -54,7 +52,7 @@ void MX_TIM6_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 71;
+  htim6.Init.Prescaler = 20;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim6.Init.Period = 65535;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;

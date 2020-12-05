@@ -41,7 +41,13 @@ void HAL_SRAM_MspInit(SRAM_HandleTypeDef* hsram);
 void HAL_SRAM_MspDeInit(SRAM_HandleTypeDef* hsram);
 
 /* USER CODE BEGIN Prototypes */
+#define    DWT_CYCCNT    *(volatile unsigned long *)0xE0001004
+#define    DWT_CONTROL   *(volatile unsigned long *)0xE0001000
+#define    SCB_DEMCR     *(volatile unsigned long *)0xE000EDFC
 
+void DWT_Init(void);
+static __inline uint32_t delta(uint32_t t0, uint32_t t1);
+void delay_us(uint32_t us);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
