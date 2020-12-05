@@ -1,7 +1,0 @@
-lv_draw_rect.c:510:48:grad_get	16	static
-lv_draw_rect.c:1082:35:shadow_blur_corner	64	static
-lv_draw_rect.c:1337:13:draw_full_border	176	static
-lv_area.h:100:20:lv_area_copy	0	static
-lv_draw_rect.c:75:28:lv_draw_rect_dsc_init	8	static
-lv_draw_rect.c:103:6:lv_draw_rect	232	static
-lv_draw_rect.c:135:6:lv_draw_px	0	static

@@ -1,8 +1,0 @@
-lv_printf.c:129:20:_out_buffer	0	static
-lv_printf.c:138:20:_out_null	0	static
-lv_printf.c:208:15:_ntoa_format	56	static
-lv_printf.c:263:15:_ntoa_long	88	static
-lv_printf.c:289:15:_ntoa_long_long	112	static
-lv_printf.c:567:12:_vsnprintf.constprop	96	static
-lv_printf.c:879:5:lv_snprintf	16	static
-lv_printf.c:888:5:lv_vsnprintf	0	static
