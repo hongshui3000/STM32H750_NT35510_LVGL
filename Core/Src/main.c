@@ -106,16 +106,16 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-	  main_test();
-	  test_read();
-	  test_color();
-	  test_fillrec();
-	  test_circle();
-	  test_triangle();
-	  english_font_test();
-	  chinese_font_test();
-	  pic_test();
-	  rotate_test();
+	  main_test(); 		//ІвКФЦчЅзГж
+	  test_read();     //¶БIDєНСХЙ«ЦµІвКФ
+	  test_color();  		//јтµҐЛўЖБМоідІвКФ
+	  test_fillrec();		//GUIѕШРО»жНјІвКФ
+	  test_circle(); 		//GUI»­ФІІвКФ
+	  test_triangle();    //GUIИэЅЗРО»жНјІвКФ
+	  english_font_test();//УўОДЧЦМеКѕАэІвКФ
+	  chinese_font_test();//ЦРОДЧЦМеКѕАэІвКФ
+	  pic_test();			//НјЖ¬ПФКѕКѕАэІвКФ
+	  rotate_test();   //РэЧЄПФКѕІвКФ
 	  touch_test();
 
     /* USER CODE BEGIN 3 */
@@ -138,7 +138,7 @@ void SystemClock_Config(void)
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
   /** Initializes the RCC Oscillators according to the specified parameters
@@ -173,16 +173,12 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_APB2_DIV2;
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
-  /* Умирает где-то здесь (START) */
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
   {
-	  //При этом Erroe_Handler() не срабатывает, говорит отладчик
     Error_Handler();
   }
-  /* (FINISH) */
-
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_FMC;
-  PeriphClkInitStruct.FmcClockSelection = RCC_FMCCLKSOURCE_PLL;
+  PeriphClkInitStruct.FmcClockSelection = RCC_FMCCLKSOURCE_D1HCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
