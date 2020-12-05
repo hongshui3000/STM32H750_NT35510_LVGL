@@ -1,6 +1,0 @@
-lv_font_loader.c:202:12:read_bits	32	static
-lv_font_loader.c:224:12:read_bits_signed	8	static
-lv_font_loader.c:235:12:read_label	24	static
-lv_font_loader.c:124:6:lv_font_free	24	static
-lv_font_loader.c:597:9:load_kern	56	static
-lv_font_loader.c:89:13:lv_font_load	128	static

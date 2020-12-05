@@ -1,8 +1,3 @@
-main.c:65:6:my_flush_cb	32	static
-main.c:82:6:my_gpu_blend_cb	32	static
-main.c:91:6:my_rounder_cb	0	static
-main.c:99:6:my_set_px_cb	20	static
-main.c:108:6:tft_init	64	static
-main.c:200:6:SystemClock_Config	320	static,ignoring_inline_asm
-main.c:138:5:main	8	static
-main.c:278:6:Error_Handler	0	static,ignoring_inline_asm
+main.c:136:6:SystemClock_Config	320	static,ignoring_inline_asm
+main.c:73:5:main	8	static
+main.c:214:6:Error_Handler	0	static,ignoring_inline_asm
