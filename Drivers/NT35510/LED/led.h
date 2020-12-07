@@ -66,22 +66,16 @@
   * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-**************************************************************************************************/				
-#ifndef __TEST_H__
-#define __TEST_H__
+**************************************************************************************************/			
+#ifndef __LED_H
+#define __LED_H
+#include "sys.h"
 
-void DrawTestPage(u8 *str);
-void Test_Color(void);
-void Test_FillRec(void);
-void Test_Circle(void);
-void Test_Triangle(void);
-void English_Font_test(void);
-void Chinese_Font_test(void);
-void Pic_test(void);
-void Load_Drow_Dialog(void);
-void Touch_Test(void);
-void main_test(void);
-void Rotate_Test(void);
-void Test_Read(void);
-void Test_Dynamic_Num(void);
+//LED端口定义
+#define LED0(n)		(n?HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_RESET))
+#define LED0_Toggle (HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1))
+#define LED1(n)		(n?HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_RESET))
+#define LED1_Toggle (HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0))
+
+void LED_Init(void);//初始化		 				    
 #endif

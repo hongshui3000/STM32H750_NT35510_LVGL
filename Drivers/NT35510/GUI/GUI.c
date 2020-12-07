@@ -1,3 +1,63 @@
+//////////////////////////////////////////////////////////////////////////////////	 
+//本程序只供学习使用，未经作者许可，不得用于其它任何用途
+//测试硬件：单片机STM32H743IIT6,正点原子Apollo STM32F4/F7开发板,主频400MHZ，晶振12MHZ
+//QDtech-TFT液晶驱动 for STM32 FSMC
+//xiao冯@ShenZhen QDtech co.,LTD
+//公司网站:www.qdtft.com
+//淘宝网站：http://qdtech.taobao.com
+//wiki技术网站：http://www.lcdwiki.com
+//我司提供技术支持，任何技术问题欢迎随时交流学习
+//固话(传真) :+86 0755-23594567 
+//手机:15989313508（冯工） 
+//邮箱:lcdwiki01@gmail.com    support@lcdwiki.com    goodtft@163.com 
+//技术支持QQ:3002773612  3002778157
+//技术交流QQ群:324828016
+//创建日期:2018/08/09
+//版本：V1.0
+//版权所有，盗版必究。
+//Copyright(C) 深圳市全动电子技术有限公司 2018-2028
+//All rights reserved
+/****************************************************************************************************
+//=========================================电源接线================================================//
+//     LCD模块                STM32单片机
+//      VDD          接        DC5V/3.3V        //电源
+//      GND          接          GND            //电源地
+//=======================================液晶屏数据线接线==========================================//
+//本模块默认数据总线类型为16位并口总线
+//     LCD模块                STM32单片机      _
+//			 DB0          接          PD14           |
+//			 DB1          接          PD15           | 
+//       DB2          接          PD0            |
+//       DB3          接          PD1            |
+//       DB4          接          PE7            |
+//       DB5          接          PE8            |
+//       DB6          接          PE9            |
+//       DB7          接          PE10           |==>>液晶屏16位并口数据信号
+//       DB8          接          PE11           | 
+//       DB9          接          PE12           |
+//       DB10         接          PE13           |
+//       DB11         接          PE14           |
+//       DB12         接          PE15           |
+//       DB13         接          PD8            |
+//       DB14         接          PD9            |
+//       DB15         接          PD10          _|
+//=======================================液晶屏控制线接线==========================================//
+//     LCD模块 				        STM32单片机 
+//       WR          接          PD5           //液晶屏写数据控制信号
+//       RD          接          PD4           //液晶屏读数据控制信号
+//       RS          接          PD13          //液晶屏数据/命令控制信号
+//       RST         接        复位引脚        //液晶屏复位控制信号
+//       CS          接          PD7           //液晶屏片选控制信号
+//       BL          接          PB5           //液晶屏背光控制信号
+//=========================================触摸屏触接线=========================================//
+//如果模块不带触摸功能或者带有触摸功能，但是不需要触摸功能，则不需要进行触摸屏接线
+//	   LCD模块                STM32单片机 
+//       PEN         接          PH7           //触摸屏触摸中断信号
+//       MISO        接          PG3           //触摸屏SPI总线读信号
+//       MOSI        接          PI3           //触摸屏SPI总线写信号
+//       T_CS        接          PI8           //触摸屏片选控制信号
+//       CLK         接          PH6           //触摸屏SPI总线时钟信号
+**************************************************************************************************/	
  /* @attention
   *
   * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
@@ -10,27 +70,27 @@
 #include "lcd.h"
 #include "string.h"
 #include "font.h" 
-#include "tim.h"
+#include "delay.h"
 #include "gui.h"
 
 /*******************************************************************
- * @name       :void gui_drawpoint(uint16_t x,uint16_t y,uint16_t color)
- * @date       :
+ * @name       :void GUI_DrawPoint(u16 x,u16 y,u16 color)
+ * @date       :2018-08-09 
  * @function   :draw a point in LCD screen
  * @parameters :x:the x coordinate of the point
                 y:the y coordinate of the point
 								color:the color value of the point
  * @retvalue   :None
 ********************************************************************/
-void gui_drawpoint(uint16_t x,uint16_t y,uint16_t color)
+void GUI_DrawPoint(u16 x,u16 y,u16 color)
 {
-	lcd_setcursor(x,y);//设置光标位置 
-	lcd_writedata_16bit(color); 
+	LCD_SetCursor(x,y);//设置光标位置 
+	Lcd_WriteData_16Bit(color); 
 }
 
 /*******************************************************************
- * @name       :void lcd_fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
- * @date       :
+ * @name       :void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color)
+ * @date       :2018-08-09 
  * @function   :fill the specified area
  * @parameters :sx:the bebinning x coordinate of the specified area
                 sy:the bebinning y coordinate of the specified area
@@ -39,23 +99,23 @@ void gui_drawpoint(uint16_t x,uint16_t y,uint16_t color)
 								color:the filled color value
  * @retvalue   :None
 ********************************************************************/
-void lcd_fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
+void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color)
 {  	
-	uint16_t i,j;			
-	uint16_t width=ex-sx+1; 		//得到填充的宽度
-	uint16_t height=ey-sy+1;		//高度
-	lcd_setwindows(sx,sy,ex,ey);//设置显示窗口
+	u16 i,j;			
+	u16 width=ex-sx+1; 		//得到填充的宽度
+	u16 height=ey-sy+1;		//高度
+	LCD_SetWindows(sx,sy,ex,ey);//设置显示窗口
 	for(i=0;i<height;i++)
 	{
 		for(j=0;j<width;j++)
-		lcd_writedata_16bit(color);	//写入数据 	 
+		Lcd_WriteData_16Bit(color);	//写入数据 	 
 	}
-	lcd_setwindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口设置为全屏
+	LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口设置为全屏
 }
 
 /*******************************************************************
- * @name       :void lcd_drawline(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
- * @date       :
+ * @name       :void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2)
+ * @date       :2018-08-09 
  * @function   :Draw a line between two points
  * @parameters :x1:the bebinning x coordinate of the line
                 y1:the bebinning y coordinate of the line
@@ -63,9 +123,9 @@ void lcd_fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
 								y2:the ending y coordinate of the line
  * @retvalue   :None
 ********************************************************************/
-void lcd_drawline(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
+void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2)
 {
-	uint16_t t; 
+	u16 t; 
 	int xerr=0,yerr=0,delta_x,delta_y,distance; 
 	int incx,incy,uRow,uCol; 
 
@@ -83,7 +143,7 @@ void lcd_drawline(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 	else distance=delta_y; 
 	for(t=0;t<=distance+1;t++ )//画线输出 
 	{  
-		lcd_drawpoint(uRow,uCol);//画点 
+		LCD_DrawPoint(uRow,uCol);//画点 
 		xerr+=delta_x ; 
 		yerr+=delta_y ; 
 		if(xerr>distance) 
@@ -100,8 +160,8 @@ void lcd_drawline(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 } 
 
 /*****************************************************************************
- * @name       :void lcd_drawrectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
- * @date       :
+ * @name       :void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2)
+ * @date       :2018-08-09 
  * @function   :Draw a rectangle
  * @parameters :x1:the bebinning x coordinate of the rectangle
                 y1:the bebinning y coordinate of the rectangle
@@ -109,17 +169,17 @@ void lcd_drawline(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 								y2:the ending y coordinate of the rectangle
  * @retvalue   :None
 ******************************************************************************/
-void lcd_drawrectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
+void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2)
 {
-	lcd_drawline(x1,y1,x2,y1);
-	lcd_drawline(x1,y1,x1,y2);
-	lcd_drawline(x1,y2,x2,y2);
-	lcd_drawline(x2,y1,x2,y2);
+	LCD_DrawLine(x1,y1,x2,y1);
+	LCD_DrawLine(x1,y1,x1,y2);
+	LCD_DrawLine(x1,y2,x2,y2);
+	LCD_DrawLine(x2,y1,x2,y2);
 }  
 
 /*****************************************************************************
- * @name       :void lcd_drawfillrectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
- * @date       :
+ * @name       :void LCD_DrawFillRectangle(u16 x1, u16 y1, u16 x2, u16 y2)
+ * @date       :2018-08-09 
  * @function   :Filled a rectangle
  * @parameters :x1:the bebinning x coordinate of the filled rectangle
                 y1:the bebinning y coordinate of the filled rectangle
@@ -127,14 +187,14 @@ void lcd_drawrectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 								y2:the ending y coordinate of the filled rectangle
  * @retvalue   :None
 ******************************************************************************/  
-void lcd_drawfillrectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
+void LCD_DrawFillRectangle(u16 x1, u16 y1, u16 x2, u16 y2)
 {
-	lcd_fill(x1,y1,x2,y2,POINT_COLOR);
+	LCD_Fill(x1,y1,x2,y2,POINT_COLOR);
 }
  
 /*****************************************************************************
- * @name       :void _draw_circle_8(int xc, int yc, int x, int y, uint16_t c)
- * @date       :
+ * @name       :void _draw_circle_8(int xc, int yc, int x, int y, u16 c)
+ * @date       :2018-08-09 
  * @function   :8 symmetry circle drawing algorithm (internal call)
  * @parameters :xc:the x coordinate of the Circular center 
                 yc:the y coordinate of the Circular center 
@@ -143,28 +203,28 @@ void lcd_drawfillrectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 								c:the color value of the circle
  * @retvalue   :None
 ******************************************************************************/  
-void _draw_circle_8(int xc, int yc, int x, int y, uint16_t c)
+void _draw_circle_8(int xc, int yc, int x, int y, u16 c)
 {
-	gui_drawpoint(xc + x, yc + y, c);
+	GUI_DrawPoint(xc + x, yc + y, c);
 
-	gui_drawpoint(xc - x, yc + y, c);
+	GUI_DrawPoint(xc - x, yc + y, c);
 
-	gui_drawpoint(xc + x, yc - y, c);
+	GUI_DrawPoint(xc + x, yc - y, c);
 
-	gui_drawpoint(xc - x, yc - y, c);
+	GUI_DrawPoint(xc - x, yc - y, c);
 
-	gui_drawpoint(xc + y, yc + x, c);
+	GUI_DrawPoint(xc + y, yc + x, c);
 
-	gui_drawpoint(xc - y, yc + x, c);
+	GUI_DrawPoint(xc - y, yc + x, c);
 
-	gui_drawpoint(xc + y, yc - x, c);
+	GUI_DrawPoint(xc + y, yc - x, c);
 
-	gui_drawpoint(xc - y, yc - x, c);
+	GUI_DrawPoint(xc - y, yc - x, c);
 }
 
 /*****************************************************************************
- * @name       :void gui_circle(int xc, int yc,uint16_t c,int r, int fill)
- * @date       :
+ * @name       :void gui_circle(int xc, int yc,u16 c,int r, int fill)
+ * @date       :2018-08-09 
  * @function   :Draw a circle of specified size at a specified location
  * @parameters :xc:the x coordinate of the Circular center 
                 yc:the y coordinate of the Circular center 
@@ -172,7 +232,7 @@ void _draw_circle_8(int xc, int yc, int x, int y, uint16_t c)
 								fill:1-filling,0-no filling
  * @retvalue   :None
 ******************************************************************************/  
-void gui_circle(int xc, int yc,uint16_t c,int r, int fill)
+void gui_circle(int xc, int yc,u16 c,int r, int fill)
 {
 	int x = 0, y = r, yi, d;
 
@@ -211,8 +271,8 @@ void gui_circle(int xc, int yc,uint16_t c,int r, int fill)
 }
 
 /*****************************************************************************
- * @name       :void draw_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
- * @date       :
+ * @name       :void Draw_Triangel(u16 x0,u16 y0,u16 x1,u16 y1,u16 x2,u16 y2)
+ * @date       :2018-08-09 
  * @function   :Draw a triangle at a specified position
  * @parameters :x0:the bebinning x coordinate of the triangular edge 
                 y0:the bebinning y coordinate of the triangular edge 
@@ -222,24 +282,24 @@ void gui_circle(int xc, int yc,uint16_t c,int r, int fill)
 								y2:the ending y coordinate of the triangular edge 
  * @retvalue   :None
 ******************************************************************************/ 
-void draw_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
+void Draw_Triangel(u16 x0,u16 y0,u16 x1,u16 y1,u16 x2,u16 y2)
 {
-	lcd_drawline(x0,y0,x1,y1);
-	lcd_drawline(x1,y1,x2,y2);
-	lcd_drawline(x2,y2,x0,y0);
+	LCD_DrawLine(x0,y0,x1,y1);
+	LCD_DrawLine(x1,y1,x2,y2);
+	LCD_DrawLine(x2,y2,x0,y0);
 }
 
-static void _swap(uint16_t *a, uint16_t *b)
+static void _swap(u16 *a, u16 *b)
 {
-	uint16_t tmp;
+	u16 tmp;
   tmp = *a;
 	*a = *b;
 	*b = tmp;
 }
 
 /*****************************************************************************
- * @name       :void fill_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
- * @date       :
+ * @name       :void Fill_Triangel(u16 x0,u16 y0,u16 x1,u16 y1,u16 x2,u16 y2)
+ * @date       :2018-08-09 
  * @function   :filling a triangle at a specified position
  * @parameters :x0:the bebinning x coordinate of the triangular edge 
                 y0:the bebinning y coordinate of the triangular edge 
@@ -249,9 +309,9 @@ static void _swap(uint16_t *a, uint16_t *b)
 								y2:the ending y coordinate of the triangular edge 
  * @retvalue   :None
 ******************************************************************************/ 
-void fill_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,uint16_t y2)
+void Fill_Triangel(u16 x0,u16 y0,u16 x1,u16 y1,u16 x2,u16 y2)
 {
-	uint16_t a, b, y, last;
+	u16 a, b, y, last;
 	int dx01, dy01, dx02, dy02, dx12, dy12;
 	long sa = 0;
 	long sb = 0;
@@ -289,7 +349,7 @@ void fill_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,u
     {
 			b = x2;
     }
-		lcd_fill(a,y0,b,y0,POINT_COLOR);
+		LCD_Fill(a,y0,b,y0,POINT_COLOR);
     return;
 	}
 	dx01 = x1 - x0;
@@ -317,7 +377,7 @@ void fill_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,u
     {
 			_swap(&a,&b);
 		}
-		lcd_fill(a,y,b,y,POINT_COLOR);
+		LCD_Fill(a,y,b,y,POINT_COLOR);
 	}
 	sa = dx12 * (y - y1);
 	sb = dx02 * (y - y0);
@@ -331,13 +391,13 @@ void fill_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,u
 		{
 			_swap(&a,&b);
 		}
-		lcd_fill(a,y,b,y,POINT_COLOR);
+		LCD_Fill(a,y,b,y,POINT_COLOR);
 	}
 }
 
 /*****************************************************************************
- * @name       :void lcd_showchar(uint16_t x,uint16_t y,uint16_t fc, uint16_t bc, uint8_t num,uint8_t size,uint8_t mode)
- * @date       :
+ * @name       :void LCD_ShowChar(u16 x,u16 y,u16 fc, u16 bc, u8 num,u8 size,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Display a single English character
  * @parameters :x:the bebinning x coordinate of the Character display position
                 y:the bebinning y coordinate of the Character display position
@@ -348,14 +408,14 @@ void fill_triangel(uint16_t x0,uint16_t y0,uint16_t x1,uint16_t y1,uint16_t x2,u
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/ 
-void lcd_showchar(uint16_t x,uint16_t y,uint16_t fc, uint16_t bc, uint8_t num,uint8_t size,uint8_t mode)
+void LCD_ShowChar(u16 x,u16 y,u16 fc, u16 bc, u8 num,u8 size,u8 mode)
 {  
-    uint8_t temp;
-    uint8_t pos,t;
-	uint16_t colortemp=POINT_COLOR;      
+    u8 temp;
+    u8 pos,t;
+	u16 colortemp=POINT_COLOR;      
 		   
 	num=num-' ';//得到偏移后的值
-	lcd_setwindows(x,y,x+size/2-1,y+size-1);//设置单个文字显示窗口
+	LCD_SetWindows(x,y,x+size/2-1,y+size-1);//设置单个文字显示窗口
 	if(!mode) //非叠加方式
 	{		
 		for(pos=0;pos<size;pos++)
@@ -364,9 +424,9 @@ void lcd_showchar(uint16_t x,uint16_t y,uint16_t fc, uint16_t bc, uint8_t num,ui
 			else temp=asc2_1608[num][pos];		 //调用1608字体
 			for(t=0;t<size/2;t++)
 		    {                 
-		        if(temp&0x01)lcd_writedata_16bit(fc); 
-				else lcd_writedata_16bit(bc); 
-				temp>>=1; 
+		        if(temp&0x80)Lcd_WriteData_16Bit(fc); 
+				else Lcd_WriteData_16Bit(bc); 
+				temp<<=1; 
 				
 		    }
 			
@@ -380,18 +440,18 @@ void lcd_showchar(uint16_t x,uint16_t y,uint16_t fc, uint16_t bc, uint8_t num,ui
 			for(t=0;t<size/2;t++)
 		    {   
 				POINT_COLOR=fc;              
-		        if(temp&0x01)lcd_drawpoint(x+t,y+pos);//画一个点    
-		        temp>>=1; 
+		        if(temp&0x80)LCD_DrawPoint(x+t,y+pos);//画一个点    
+		        temp<<=1; 
 		    }
 		}
 	}
 	POINT_COLOR=colortemp;	
-	lcd_setwindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏    	   	 	  
+	LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏    	   	 	  
 }
 
 /*****************************************************************************
- * @name       :void lcd_showstring(uint16_t x,uint16_t y,uint8_t size,uint8_t *p,uint8_t mode)
- * @date       :
+ * @name       :void LCD_ShowString(u16 x,u16 y,u8 size,u8 *p,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Display English string
  * @parameters :x:the bebinning x coordinate of the English string
                 y:the bebinning y coordinate of the English string
@@ -400,36 +460,36 @@ void lcd_showchar(uint16_t x,uint16_t y,uint16_t fc, uint16_t bc, uint8_t num,ui
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/   	  
-void lcd_showstring(uint16_t x,uint16_t y,uint8_t size,uint8_t *p,uint8_t mode)
+void LCD_ShowString(u16 x,u16 y,u8 size,u8 *p,u8 mode)
 {         
     while((*p<='~')&&(*p>=' '))//判断是不是非法字符!
     {   
 		if(x>(lcddev.width-1)||y>(lcddev.height-1)) 
 		return;     
-        lcd_showchar(x,y,POINT_COLOR,BACK_COLOR,*p,size,mode);
+        LCD_ShowChar(x,y,POINT_COLOR,BACK_COLOR,*p,size,mode);
         x+=size/2;
         p++;
     }  
 } 
 
 /*****************************************************************************
- * @name       :uint32_t mypow(uint8_t m,uint8_t n)
- * @date       :
+ * @name       :u32 mypow(u8 m,u8 n)
+ * @date       :2018-08-09 
  * @function   :get the nth power of m (internal call)
  * @parameters :m:the multiplier
                 n:the power
  * @retvalue   :the nth power of m
 ******************************************************************************/ 
-uint32_t mypow(uint8_t m,uint8_t n)
+u32 mypow(u8 m,u8 n)
 {
-	uint32_t result=1;	 
+	u32 result=1;	 
 	while(n--)result*=m;    
 	return result;
 }
 
 /*****************************************************************************
- * @name       :void lcd_shownum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size)
- * @date       :
+ * @name       :void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size)
+ * @date       :2018-08-09 
  * @function   :Display number
  * @parameters :x:the bebinning x coordinate of the number
                 y:the bebinning y coordinate of the number
@@ -438,10 +498,10 @@ uint32_t mypow(uint8_t m,uint8_t n)
 								size:the size of display number
  * @retvalue   :None
 ******************************************************************************/  			 
-void lcd_shownum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size)
+void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size)
 {         	
-	uint8_t t,temp;
-	uint8_t enshow=0;						   
+	u8 t,temp;
+	u8 enshow=0;						   
 	for(t=0;t<len;t++)
 	{
 		temp=(num/mypow(10,len-t-1))%10;
@@ -449,18 +509,18 @@ void lcd_shownum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size)
 		{
 			if(temp==0)
 			{
-				lcd_showchar(x+(size/2)*t,y,POINT_COLOR,BACK_COLOR,' ',size,0);
+				LCD_ShowChar(x+(size/2)*t,y,POINT_COLOR,BACK_COLOR,' ',size,0);
 				continue;
 			}else enshow=1; 
 		 	 
 		}
-	 	lcd_showchar(x+(size/2)*t,y,POINT_COLOR,BACK_COLOR,temp+'0',size,0); 
+	 	LCD_ShowChar(x+(size/2)*t,y,POINT_COLOR,BACK_COLOR,temp+'0',size,0); 
 	}
 } 
 
 /*****************************************************************************
- * @name       :void gui_drawfont16(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s,uint8_t mode)
- * @date       :
+ * @name       :void GUI_DrawFont16(u16 x, u16 y, u16 fc, u16 bc, u8 *s,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Display a single 16x16 Chinese character
  * @parameters :x:the bebinning x coordinate of the Chinese character
                 y:the bebinning y coordinate of the Chinese character
@@ -470,32 +530,32 @@ void lcd_shownum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size)
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/ 
-void gui_drawfont16(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s,uint8_t mode)
+void GUI_DrawFont16(u16 x, u16 y, u16 fc, u16 bc, u8 *s,u8 mode)
 {
-	uint8_t i,j;
-	uint16_t k;
-	uint16_t HZnum;
-	uint16_t x0=x;
+	u8 i,j;
+	u16 k;
+	u16 HZnum;
+	u16 x0=x;
 	HZnum=sizeof(tfont16)/sizeof(typFNT_GB16);	//自动统计汉字数目
 	
 			
 	for (k=0;k<HZnum;k++) 
 	{
 	  if ((tfont16[k].Index[0]==*(s))&&(tfont16[k].Index[1]==*(s+1)))
-	  { 	lcd_setwindows(x,y,x+16-1,y+16-1);
+	  { 	LCD_SetWindows(x,y,x+16-1,y+16-1);
 		    for(i=0;i<16*2;i++)
 		    {
 				for(j=0;j<8;j++)
 		    	{	
 					if(!mode) //非叠加方式
 					{
-						if(tfont16[k].Msk[i]&(0x80>>j))	lcd_writedata_16bit(fc);
-						else lcd_writedata_16bit(bc);
+						if(tfont16[k].Msk[i]&(0x80>>j))	Lcd_WriteData_16Bit(fc);
+						else Lcd_WriteData_16Bit(bc);
 					}
 					else
 					{
 						POINT_COLOR=fc;
-						if(tfont16[k].Msk[i]&(0x80>>j))	lcd_drawpoint(x,y);//画一个点
+						if(tfont16[k].Msk[i]&(0x80>>j))	LCD_DrawPoint(x,y);//画一个点
 						x++;
 						if((x-x0)==16)
 						{
@@ -514,12 +574,12 @@ void gui_drawfont16(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s
 		continue;  //查找到对应点阵字库立即退出，防止多个汉字重复取模带来影响
 	}
 
-	lcd_setwindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏  
+	LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏  
 } 
 
 /*****************************************************************************
- * @name       :void gui_drawfont24(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s,uint8_t mode)
- * @date       :
+ * @name       :void GUI_DrawFont24(u16 x, u16 y, u16 fc, u16 bc, u8 *s,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Display a single 24x24 Chinese character
  * @parameters :x:the bebinning x coordinate of the Chinese character
                 y:the bebinning y coordinate of the Chinese character
@@ -529,31 +589,31 @@ void gui_drawfont16(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/ 
-void gui_drawfont24(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s,uint8_t mode)
+void GUI_DrawFont24(u16 x, u16 y, u16 fc, u16 bc, u8 *s,u8 mode)
 {
-	uint8_t i,j;
-	uint16_t k;
-	uint16_t HZnum;
-	uint16_t x0=x;
+	u8 i,j;
+	u16 k;
+	u16 HZnum;
+	u16 x0=x;
 	HZnum=sizeof(tfont24)/sizeof(typFNT_GB24);	//自动统计汉字数目
 		
 			for (k=0;k<HZnum;k++) 
 			{
 			  if ((tfont24[k].Index[0]==*(s))&&(tfont24[k].Index[1]==*(s+1)))
-			  { 	lcd_setwindows(x,y,x+24-1,y+24-1);
+			  { 	LCD_SetWindows(x,y,x+24-1,y+24-1);
 				    for(i=0;i<24*3;i++)
 				    {
 							for(j=0;j<8;j++)
 							{
 								if(!mode) //非叠加方式
 								{
-									if(tfont24[k].Msk[i]&(0x80>>j))	lcd_writedata_16bit(fc);
-									else lcd_writedata_16bit(bc);
+									if(tfont24[k].Msk[i]&(0x80>>j))	Lcd_WriteData_16Bit(fc);
+									else Lcd_WriteData_16Bit(bc);
 								}
 							else
 							{
 								POINT_COLOR=fc;
-								if(tfont24[k].Msk[i]&(0x80>>j))	lcd_drawpoint(x,y);//画一个点
+								if(tfont24[k].Msk[i]&(0x80>>j))	LCD_DrawPoint(x,y);//画一个点
 								x++;
 								if((x-x0)==24)
 								{
@@ -570,12 +630,12 @@ void gui_drawfont24(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s
 				continue;  //查找到对应点阵字库立即退出，防止多个汉字重复取模带来影响
 			}
 
-	lcd_setwindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏  
+	LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏  
 }
 
 /*****************************************************************************
- * @name       :void gui_drawfont32(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s,uint8_t mode)
- * @date       :
+ * @name       :void GUI_DrawFont32(u16 x, u16 y, u16 fc, u16 bc, u8 *s,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Display a single 32x32 Chinese character
  * @parameters :x:the bebinning x coordinate of the Chinese character
                 y:the bebinning y coordinate of the Chinese character
@@ -585,30 +645,30 @@ void gui_drawfont24(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/ 
-void gui_drawfont32(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s,uint8_t mode)
+void GUI_DrawFont32(u16 x, u16 y, u16 fc, u16 bc, u8 *s,u8 mode)
 {
-	uint8_t i,j;
-	uint16_t k;
-	uint16_t HZnum;
-	uint16_t x0=x;
+	u8 i,j;
+	u16 k;
+	u16 HZnum;
+	u16 x0=x;
 	HZnum=sizeof(tfont32)/sizeof(typFNT_GB32);	//自动统计汉字数目
 	for (k=0;k<HZnum;k++) 
 			{
 			  if ((tfont32[k].Index[0]==*(s))&&(tfont32[k].Index[1]==*(s+1)))
-			  { 	lcd_setwindows(x,y,x+32-1,y+32-1);
+			  { 	LCD_SetWindows(x,y,x+32-1,y+32-1);
 				    for(i=0;i<32*4;i++)
 				    {
 						for(j=0;j<8;j++)
 				    	{
 							if(!mode) //非叠加方式
 							{
-								if(tfont32[k].Msk[i]&(0x80>>j))	lcd_writedata_16bit(fc);
-								else lcd_writedata_16bit(bc);
+								if(tfont32[k].Msk[i]&(0x80>>j))	Lcd_WriteData_16Bit(fc);
+								else Lcd_WriteData_16Bit(bc);
 							}
 							else
 							{
 								POINT_COLOR=fc;
-								if(tfont32[k].Msk[i]&(0x80>>j))	lcd_drawpoint(x,y);//画一个点
+								if(tfont32[k].Msk[i]&(0x80>>j))	LCD_DrawPoint(x,y);//画一个点
 								x++;
 								if((x-x0)==32)
 								{
@@ -625,12 +685,12 @@ void gui_drawfont32(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s
 				continue;  //查找到对应点阵字库立即退出，防止多个汉字重复取模带来影响
 			}
 	
-	lcd_setwindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏  
+	LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复窗口为全屏  
 } 
 
 /*****************************************************************************
- * @name       :void show_str(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uint8_t size,uint8_t mode)
- * @date       :
+ * @name       :void Show_Str(u16 x, u16 y, u16 fc, u16 bc, u8 *str,u8 size,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Display Chinese and English strings
  * @parameters :x:the bebinning x coordinate of the Chinese and English strings
                 y:the bebinning y coordinate of the Chinese and English strings
@@ -641,10 +701,10 @@ void gui_drawfont32(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *s
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/	   		   
-void show_str(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uint8_t size,uint8_t mode)
+void Show_Str(u16 x, u16 y, u16 fc, u16 bc, u8 *str,u8 size,u8 mode)
 {					
-	uint16_t x0=x;							  	  
-  	uint8_t bHz=0;     //字符或者中文 
+	u16 x0=x;							  	  
+  	u8 bHz=0;     //字符或者中文 
     while(*str!=0)//数据未结束
     { 
         if(!bHz)
@@ -664,12 +724,12 @@ void show_str(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uin
 				{
 					if(size>16)//字库中没有集成12X24 16X32的英文字体,用8X16代替
 					{  
-					lcd_showchar(x,y,fc,bc,*str,16,mode);
+					LCD_ShowChar(x,y,fc,bc,*str,16,mode);
 					x+=8; //字符,为全字的一半 
 					}
 					else
 					{
-					lcd_showchar(x,y,fc,bc,*str,size,mode);
+					LCD_ShowChar(x,y,fc,bc,*str,size,mode);
 					x+=size/2; //字符,为全字的一半 
 					}
 				} 
@@ -682,11 +742,11 @@ void show_str(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uin
 			return;  
             bHz=0;//有汉字库    
 			if(size==32)
-			gui_drawfont32(x,y,fc,bc,str,mode);	 	
+			GUI_DrawFont32(x,y,fc,bc,str,mode);	 	
 			else if(size==24)
-			gui_drawfont24(x,y,fc,bc,str,mode);	
+			GUI_DrawFont24(x,y,fc,bc,str,mode);	
 			else
-			gui_drawfont16(x,y,fc,bc,str,mode);
+			GUI_DrawFont16(x,y,fc,bc,str,mode);
 				
 	        str+=2; 
 	        x+=size;//下一个汉字偏移	    
@@ -695,8 +755,8 @@ void show_str(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uin
 }
 
 /*****************************************************************************
- * @name       :void gui_strcenter(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uint8_t size,uint8_t mode)
- * @date       :
+ * @name       :void Gui_StrCenter(u16 x, u16 y, u16 fc, u16 bc, u8 *str,u8 size,u8 mode)
+ * @date       :2018-08-09 
  * @function   :Centered display of English and Chinese strings
  * @parameters :x:the bebinning x coordinate of the Chinese and English strings
                 y:the bebinning y coordinate of the Chinese and English strings
@@ -707,32 +767,32 @@ void show_str(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uin
 								mode:0-no overlying,1-overlying
  * @retvalue   :None
 ******************************************************************************/ 
-void gui_strcenter(uint16_t x, uint16_t y, uint16_t fc, uint16_t bc, uint8_t *str,uint8_t size,uint8_t mode)
+void Gui_StrCenter(u16 x, u16 y, u16 fc, u16 bc, u8 *str,u8 size,u8 mode)
 {
-	uint16_t len=strlen((const char *)str);
-	uint16_t x1=(lcddev.width-len*8)/2;
-	show_str(x1,y,fc,bc,str,size,mode);
+	u16 len=strlen((const char *)str);
+	u16 x1=(lcddev.width-len*8)/2;
+	Show_Str(x1,y,fc,bc,str,size,mode);
 } 
  
 /*****************************************************************************
- * @name       :void gui_drawbmp16(uint16_t x,uint16_t y,uint16_t w,uint16_t h,const unsigned char *p)
- * @date       :
+ * @name       :void Gui_Drawbmp16(u16 x,u16 y,u16 pwidth, u16 pheight, const unsigned char *p) //显示图片
+ * @date       :2018-08-09 
  * @function   :Display a 16-bit BMP image
  * @parameters :x:the bebinning x coordinate of the BMP image
                 y:the bebinning y coordinate of the BMP image
 								p:the start address of image array
  * @retvalue   :None
 ******************************************************************************/ 
-void gui_drawbmp16(uint16_t x,uint16_t y,uint16_t w,uint16_t h,const unsigned char *p) //显示40*40 QQ图片
+void Gui_Drawbmp16(u16 x,u16 y,u16 pwidth, u16 pheight, const unsigned char *p) //显示图片
 {
   	int i; 
 	unsigned char picH,picL; 
-	lcd_setwindows(x,y,x+w-1,y+h-1);//窗口设置
-    for(i=0;i<w*h;i++)
+	LCD_SetWindows(x,y,x+pwidth-1,y+pheight-1);//窗口设置
+    for(i=0;i<pwidth*pheight;i++)
 	{	
 	 	picL=*(p+i*2);	//数据低位在前
 		picH=*(p+i*2+1);				
-		lcd_writedata_16bit(picH<<8|picL);  						
+		Lcd_WriteData_16Bit(picH<<8|picL);  						
 	}	
-	lcd_setwindows(0,0,lcddev.width-1,lcddev.height-1);//恢复显示窗口为全屏	
+	LCD_SetWindows(0,0,lcddev.width-1,lcddev.height-1);//恢复显示窗口为全屏	
 }

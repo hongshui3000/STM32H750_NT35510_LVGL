@@ -19,17 +19,17 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "quadspi.h"
-#include "tim.h"
 #include "gpio.h"
-#include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "delay.h"
+#include "sys.h"
 #include "lcd.h"
-#include "gui.h"
 #include "touch.h"
+#include "gui.h"
 #include "test.h"
+#include "sdram.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,7 +70,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	Cache_Enable();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -91,13 +91,11 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_FMC_Init();
-  MX_QUADSPI_Init();
-  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-
-  lcd_init();
-
+  Stm32_Clock_Init(160,5,2,4);  		    //ЙиЦГК±ЦУ,400Mhz
+  	 delay_init(400);						//СУК±іхКј»Ї
+  	 SDRAM_Init();                   		//іхКј»ЇSDRAM
+  	 LCD_Init();	   //Тєѕ§ЖБіхКј»Ї
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,19 +103,19 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
 	  main_test(); 		//ІвКФЦчЅзГж
-	  		test_read();     //¶БIDєНСХЙ«ЦµІвКФ
-	  		test_color();  		//јтµҐЛўЖБМоідІвКФ
-	  		test_fillrec();		//GUIѕШРО»жНјІвКФ
-	  		test_circle(); 		//GUI»­ФІІвКФ
-	  		test_triangle();    //GUIИэЅЗРО»жНјІвКФ
-	  		english_font_test();//УўОДЧЦМеКѕАэІвКФ
-	  		chinese_font_test();//ЦРОДЧЦМеКѕАэІвКФ
-	  		pic_test();			//НјЖ¬ПФКѕКѕАэІвКФ
-	  		rotate_test();   //РэЧЄПФКѕІвКФ
-	  		touch_test();
-
+	  			Test_Read();     //¶БIDєНСХЙ«ЦµІвКФ
+	  			Test_Color();  		//јтµҐЛўЖБМоідІвКФ
+	  			Test_FillRec();		//GUIѕШРО»жНјІвКФ
+	  			Test_Circle(); 		//GUI»­ФІІвКФ
+	  			Test_Triangle();    //GUIИэЅЗРО»жНјІвКФ
+	  			English_Font_test();//УўОДЧЦМеКѕАэІвКФ
+	  			Chinese_Font_test();//ЦРОДЧЦМеКѕАэІвКФ
+	  			Pic_test();			//НјЖ¬ПФКѕКѕАэІвКФ
+	  		Test_Dynamic_Num();
+	    		Rotate_Test();   //РэЧЄПФКѕІвКФ
+	  		//Из№ыІ»ґшґҐГюЈ¬»тХЯІ»РиТЄґҐГю№¦ДЬЈ¬ЗлЧўКНµфПВГжґҐГюЖБІвКФПо
+	  			Touch_Test();		//ґҐГюЖБКЦРґІвКФ
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -131,7 +129,6 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
   /** Supply configuration update enable
   */
@@ -174,13 +171,6 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB4CLKDivider = RCC_APB4_DIV2;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_QSPI|RCC_PERIPHCLK_FMC;
-  PeriphClkInitStruct.FmcClockSelection = RCC_FMCCLKSOURCE_D1HCLK;
-  PeriphClkInitStruct.QspiClockSelection = RCC_QSPICLKSOURCE_D1HCLK;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
   }

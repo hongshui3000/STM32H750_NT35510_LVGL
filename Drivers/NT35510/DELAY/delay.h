@@ -67,21 +67,13 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 **************************************************************************************************/				
-#ifndef __TEST_H__
-#define __TEST_H__
+#ifndef __DELAY_H
+#define __DELAY_H 			   
+#include <sys.h>	  
+	 
+void delay_init(u16 SYSCLK);
+void delay_ms(u16 nms);
+void delay_us(u32 nus);
 
-void DrawTestPage(u8 *str);
-void Test_Color(void);
-void Test_FillRec(void);
-void Test_Circle(void);
-void Test_Triangle(void);
-void English_Font_test(void);
-void Chinese_Font_test(void);
-void Pic_test(void);
-void Load_Drow_Dialog(void);
-void Touch_Test(void);
-void main_test(void);
-void Rotate_Test(void);
-void Test_Read(void);
-void Test_Dynamic_Num(void);
 #endif
+

@@ -66,22 +66,30 @@
   * DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES WITH RESPECT TO ANY CLAIMS ARISING
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
-**************************************************************************************************/				
-#ifndef __TEST_H__
-#define __TEST_H__
+**************************************************************************************************/		
+#ifndef __MYIIC_H
+#define __MYIIC_H
+#include "sys.h"
+  	   		   
+//IO方向设置
+#define SDA_IN()  {GPIOH->MODER&=~(3<<(5*2));GPIOH->MODER|=0<<5*2;}	//PH5输入模式
+#define SDA_OUT() {GPIOH->MODER&=~(3<<(5*2));GPIOH->MODER|=1<<5*2;} //PH5输出模式
+//IO操作
+#define IIC_SCL(n)  (n?HAL_GPIO_WritePin(GPIOH,GPIO_PIN_4,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOH,GPIO_PIN_4,GPIO_PIN_RESET)) //SCL
+#define IIC_SDA(n)  (n?HAL_GPIO_WritePin(GPIOH,GPIO_PIN_5,GPIO_PIN_SET):HAL_GPIO_WritePin(GPIOH,GPIO_PIN_5,GPIO_PIN_RESET)) //SDA
+#define READ_SDA    HAL_GPIO_ReadPin(GPIOH,GPIO_PIN_5)  //输入SDA
 
-void DrawTestPage(u8 *str);
-void Test_Color(void);
-void Test_FillRec(void);
-void Test_Circle(void);
-void Test_Triangle(void);
-void English_Font_test(void);
-void Chinese_Font_test(void);
-void Pic_test(void);
-void Load_Drow_Dialog(void);
-void Touch_Test(void);
-void main_test(void);
-void Rotate_Test(void);
-void Test_Read(void);
-void Test_Dynamic_Num(void);
+//IIC所有操作函数
+void IIC_Init(void);                //初始化IIC的IO口				 
+void IIC_Start(void);				//发送IIC开始信号
+void IIC_Stop(void);	  			//发送IIC停止信号
+void IIC_Send_Byte(u8 txd);			//IIC发送一个字节
+u8 IIC_Read_Byte(unsigned char ack);//IIC读取一个字节
+u8 IIC_Wait_Ack(void); 				//IIC等待ACK信号
+void IIC_Ack(void);					//IIC发送ACK信号
+void IIC_NAck(void);				//IIC不发送ACK信号
+
+void IIC_Write_One_Byte(u8 daddr,u8 addr,u8 data);
+u8 IIC_Read_One_Byte(u8 daddr,u8 addr);	 
 #endif
+

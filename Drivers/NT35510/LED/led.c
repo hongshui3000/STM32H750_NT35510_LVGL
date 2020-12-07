@@ -67,21 +67,32 @@
   * FROM THE CONTENT OF SUCH FIRMWARE AND/OR THE USE MADE BY CUSTOMERS OF THE
   * CODING INFORMATION CONTAINED HEREIN IN CONNECTION WITH THEIR PRODUCTS.
 **************************************************************************************************/				
-#ifndef __TEST_H__
-#define __TEST_H__
+#include "led.h"
 
-void DrawTestPage(u8 *str);
-void Test_Color(void);
-void Test_FillRec(void);
-void Test_Circle(void);
-void Test_Triangle(void);
-void English_Font_test(void);
-void Chinese_Font_test(void);
-void Pic_test(void);
-void Load_Drow_Dialog(void);
-void Touch_Test(void);
-void main_test(void);
-void Rotate_Test(void);
-void Test_Read(void);
-void Test_Dynamic_Num(void);
-#endif
+/*****************************************************************************
+ * @name       :void LED_Init(void)
+ * @date       :2018-08-09 
+ * @function   :Initialize LED GPIO
+ * @parameters :None
+ * @retvalue   :None
+******************************************************************************/	 
+void LED_Init(void)
+{
+    GPIO_InitTypeDef GPIO_Initure;
+    __HAL_RCC_GPIOB_CLK_ENABLE();           //开启GPIOB时钟
+	
+    GPIO_Initure.Pin=GPIO_PIN_0|GPIO_PIN_1; //PB1,0
+    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
+    GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
+    GPIO_Initure.Speed=GPIO_SPEED_FREQ_VERY_HIGH;  	//高速
+    HAL_GPIO_Init(GPIOB,&GPIO_Initure);
+	
+    HAL_GPIO_WritePin(GPIOB,GPIO_PIN_0,GPIO_PIN_SET);	//PB0置1 
+    HAL_GPIO_WritePin(GPIOB,GPIO_PIN_1,GPIO_PIN_SET);	//PB1置1  
+}
+
+
+
+
+
+
